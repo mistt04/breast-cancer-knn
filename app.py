@@ -126,6 +126,24 @@ model, scaler, feature_names, m = train(df, k, test_size, seed)
 st.title("Breast Cancer Predictor")
 st.caption("This tool uses patterns from past biopsy measurements to estimate whether a tumor is likely **Benign (0)** or **Malignant (1)**. \
 It compares your inputs to similar past cases (K-Nearest Neighbors). It is **not** a medical diagnosis.")
+with st.expander("About the dataset", expanded=False):
+    st.markdown("""
+Each **row** in this dataset represents **one patient’s breast-mass biopsy**.
+
+- The tissue sample was imaged under a microscope.
+- A computer analyzed the **cell nuclei** and computed **30 numeric features**:
+    - **Size-related:** e.g. `radius_mean`, `area_mean`, `perimeter_worst`
+    - **Texture-related:** e.g. `texture_mean`, `smoothness_mean`
+    - **Shape / irregularity:** e.g. `compactness_mean`, `concavity_mean`, `fractal_dimension_mean`
+    - Columns ending in **“_worst”** show the **largest / most irregular** value seen in that sample.
+- The final column **`diagnosis`** is the ground-truth label from the pathologist:
+    - `M` = malignant (cancerous)
+    - `B` = benign (non-cancerous)
+
+> **One row** summarizes **all nuclei from one patient’s tumor**.
+""")
+
+
 
 # Friendly metrics
 c1, c2, c3 = st.columns(3)
