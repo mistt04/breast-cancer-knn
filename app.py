@@ -7,6 +7,18 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 
+# Add custom CSS to load OpenAI Sans from Google Fonts
+st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+    html, body, [class*="css"]  {
+        font-family: 'Open Sans', sans-serif;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
 st.set_page_config(page_title="Breast Cancer Predictor", layout="wide")
 
 # ------------------------
