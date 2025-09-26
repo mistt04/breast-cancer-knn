@@ -1,0 +1,7 @@
+[theme]
+base = "light"                     # use light mode
+primaryColor = "#00BFFF"           # sky blue for buttons/sliders (#00BFFF is DeepSkyBlue)
+backgroundColor = "#FFFFFF"        # pure white background
+secondaryBackgroundColor = "#F0F8FF" # soft sky-blue tint for panels (AliceBlue)
+textColor = "#000000"              # black text for readability
+font = "sans serif"
