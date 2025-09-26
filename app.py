@@ -21,6 +21,91 @@ st.markdown("""
 
 st.set_page_config(page_title="Breast Cancer Predictor", layout="wide")
 
+# ---- Theme toggle (paste near top of app.py) ----
+import streamlit as st
+
+def apply_theme(mode: str = "light"):
+    """Inject CSS variables for light/dark themes and style a few common widgets."""
+    if mode not in ("light", "dark"):
+        mode = "light"
+
+    if mode == "light":
+        bg        = "#FFFFFF"
+        text      = "#0F172A"   # slate-900-ish
+        panel     = "#F0F8FF"   # AliceBlue
+        primary   = "#00BFFF"   # DeepSkyBlue
+        muted     = "#EEF6FF"
+        border    = "#E5E7EB"
+    else:  # dark
+        bg        = "#0B1220"
+        text      = "#E5E7EB"
+        panel     = "#121826"
+        primary   = "#38BDF8"   # sky-400
+        muted     = "#0F172A"
+        border    = "#1F2937"
+
+    st.markdown(f"""
+    <style>
+      :root {{
+        --bg: {bg};
+        --text: {text};
+        --panel: {panel};
+        --primary: {primary};
+        --muted: {muted};
+        --border: {border};
+      }}
+
+      /* App + text */
+      .stApp {{ background-color: var(--bg) !important; color: var(--text) !important; }}
+      html, body, [class*="css"] {{ color: var(--text) !important; }}
+
+      /* Header transparent */
+      div[data-testid="stHeader"] {{ background: transparent; }}
+
+      /* Sidebar */
+      section[data-testid="stSidebar"] > div {{ background-color: var(--panel) !important; }}
+
+      /* Cards/expanders/tables */
+      div[role="region"], .stDataFrame, .st-emotion-cache-16idsys, .st-emotion-cache-1r6slb0 {{
+        background-color: var(--panel) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 10px !important;
+      }}
+
+      /* Buttons */
+      .stButton > button {{
+        background-color: var(--primary) !important;
+        color: white !important;
+        border: 0 !important;
+        border-radius: 8px !important;
+      }}
+      .stButton > button:hover {{ opacity: 0.95; }}
+
+      /* Slider accent */
+      [data-baseweb="slider"] > div > div {{
+        background-color: var(--primary) !important;
+      }}
+      [data-baseweb="slider"] [role="slider"] {{
+        border-color: var(--primary) !important;
+      }}
+      /* Radio/checkbox focus */
+      input:checked {{ accent-color: var(--primary) !important; }}
+    </style>
+    """, unsafe_allow_html=True)
+
+# Sidebar toggle to switch theme
+if "theme_mode" not in st.session_state:
+    st.session_state["theme_mode"] = "light"   # default
+
+st.sidebar.markdown("### Appearance")
+dark_on = st.sidebar.toggle("🌙 Dark mode", value=(st.session_state["theme_mode"] == "dark"))
+st.session_state["theme_mode"] = "dark" if dark_on else "light"
+apply_theme(st.session_state["theme_mode"])
+# ---- /Theme toggle ----
+
+
+
+
 # ------------------------
 # Helpers
 # ------------------------
