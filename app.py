@@ -21,87 +21,101 @@ st.markdown("""
 
 st.set_page_config(page_title="Breast Cancer Predictor", layout="wide")
 
-# ---- Theme toggle (paste near top of app.py) ----
+# ---------- Runtime Light/Dark theme ----------
 import streamlit as st
 
-def apply_theme(mode: str = "light"):
-    """Inject CSS variables for light/dark themes and style a few common widgets."""
-    if mode not in ("light", "dark"):
-        mode = "light"
-
-    if mode == "light":
-        bg        = "#FFFFFF"
-        text      = "#0F172A"   # slate-900-ish
-        panel     = "#F0F8FF"   # AliceBlue
-        primary   = "#00BFFF"   # DeepSkyBlue
-        muted     = "#EEF6FF"
-        border    = "#E5E7EB"
-    else:  # dark
-        bg        = "#0B1220"
-        text      = "#E5E7EB"
-        panel     = "#121826"
-        primary   = "#38BDF8"   # sky-400
-        muted     = "#0F172A"
-        border    = "#1F2937"
+def apply_theme(mode: str):
+    # palette
+    if mode == "dark":
+        BG        = "#0B1220"
+        TEXT      = "#E5E7EB"
+        PANEL     = "#121826"
+        PRIMARY   = "#38BDF8"   # sky-400
+        MUTED     = "#0F172A"
+        BORDER    = "#1F2937"
+    else:  # light
+        BG        = "#FFFFFF"
+        TEXT      = "#0F172A"   # slate-900-ish
+        PANEL     = "#F0F8FF"   # AliceBlue
+        PRIMARY   = "#00BFFF"   # DeepSkyBlue
+        MUTED     = "#EEF6FF"
+        BORDER    = "#E5E7EB"
 
     st.markdown(f"""
     <style>
       :root {{
-        --bg: {bg};
-        --text: {text};
-        --panel: {panel};
-        --primary: {primary};
-        --muted: {muted};
-        --border: {border};
+        --bg: {BG};
+        --text: {TEXT};
+        --panel: {PANEL};
+        --primary: {PRIMARY};
+        --muted: {MUTED};
+        --border: {BORDER};
       }}
 
-      /* App + text */
-      .stApp {{ background-color: var(--bg) !important; color: var(--text) !important; }}
-      html, body, [class*="css"] {{ color: var(--text) !important; }}
+      /* page + header + sidebar backgrounds */
+      .stApp, .main, [data-testid="stAppViewContainer"] {{
+        background-color: var(--bg) !important; color: var(--text) !important;
+      }}
+      [data-testid="stHeader"] {{
+        background: var(--bg) !important;
+        border-bottom: 1px solid var(--border) !important;
+      }}
+      section[data-testid="stSidebar"] > div {{
+        background-color: var(--panel) !important; color: var(--text) !important;
+      }}
 
-      /* Header transparent */
-      div[data-testid="stHeader"] {{ background: transparent; }}
+      /* global text color */
+      [data-testid="stMarkdownContainer"], .stMarkdown, p, li, label, span, div,
+      h1, h2, h3, h4, h5, h6 {{
+        color: var(--text) !important;
+      }}
 
-      /* Sidebar */
-      section[data-testid="stSidebar"] > div {{ background-color: var(--panel) !important; }}
+      /* inputs */
+      input, select, textarea {{
+        color: var(--text) !important;
+        background: var(--panel) !important;
+        border-color: var(--border) !important;
+      }}
 
-      /* Cards/expanders/tables */
-      div[role="region"], .stDataFrame, .st-emotion-cache-16idsys, .st-emotion-cache-1r6slb0 {{
-        background-color: var(--panel) !important;
-        border: 1px solid var(--border) !important;
+      /* expanders / containers / tables */
+      [data-testid="stExpander"] {{ border: 1px solid var(--border) !important; }}
+      [data-testid="stExpander"] div[role="button"] {{
+        background: var(--panel) !important; color: var(--text) !important;
+      }}
+      .stDataFrame, div[role="region"] {{
+        background: var(--panel) !important; border: 1px solid var(--border) !important;
         border-radius: 10px !important;
       }}
 
-      /* Buttons */
-      .stButton > button {{
-        background-color: var(--primary) !important;
-        color: white !important;
-        border: 0 !important;
-        border-radius: 8px !important;
+      /* metrics */
+      [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {{
+        color: var(--text) !important;
       }}
-      .stButton > button:hover {{ opacity: 0.95; }}
 
-      /* Slider accent */
-      [data-baseweb="slider"] > div > div {{
-        background-color: var(--primary) !important;
+      /* buttons */
+      .stButton > button {{
+        background-color: var(--primary) !important; color: #fff !important;
+        border: 0 !important; border-radius: 8px !important;
       }}
-      [data-baseweb="slider"] [role="slider"] {{
-        border-color: var(--primary) !important;
-      }}
-      /* Radio/checkbox focus */
+      .stButton > button:hover {{ opacity: .95; }}
+
+      /* sliders */
+      [data-baseweb="slider"] > div > div {{ background-color: var(--primary) !important; }}
+      [data-baseweb="slider"] [role="slider"] {{ border-color: var(--primary) !important; }}
+
+      /* checkbox / radio accent */
       input:checked {{ accent-color: var(--primary) !important; }}
     </style>
     """, unsafe_allow_html=True)
 
-# Sidebar toggle to switch theme
-if "theme_mode" not in st.session_state:
-    st.session_state["theme_mode"] = "light"   # default
+# --- single-click toggle (no double-click issue) ---
+default_mode = st.session_state.get("theme_mode", "light")
+dark_on = st.sidebar.toggle("🌙 Dark mode", value=(default_mode == "dark"))
+mode = "dark" if dark_on else "light"
+st.session_state["theme_mode"] = mode
+apply_theme(mode)
+# ---------- /theme ----------
 
-st.sidebar.markdown("### Appearance")
-dark_on = st.sidebar.toggle("🌙 Dark mode", value=(st.session_state["theme_mode"] == "dark"))
-st.session_state["theme_mode"] = "dark" if dark_on else "light"
-apply_theme(st.session_state["theme_mode"])
-# ---- /Theme toggle ----
 
 
 
