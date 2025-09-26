@@ -177,8 +177,8 @@ with st.form("predict_form"):
                 )
 
     # Show the most intuitive groups first
-    sliders_for("Size (nucleus size & area)", size_cols[:6])
-    sliders_for("Texture (variation & smoothness)", texture_cols[:6])
+    sliders_for("Size (Nucleus size & area)", size_cols[:6])
+    sliders_for("Texture (Variation & smoothness of biopsy)", texture_cols[:6])
     with st.expander("Shape / Irregularity (optional)"):
         sliders_for("Edge shape features", shape_cols)
     with st.expander("Advanced features (rarely needed)"):
