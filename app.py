@@ -105,6 +105,20 @@ def apply_theme(mode: str):
 
       /* checkbox / radio accent */
       input:checked {{ accent-color: var(--primary) !important; }}
+      /* Fix text inside sliders, dropdowns, expanders, etc. */
+.stSlider label, .stSlider div, 
+.stSelectbox label, .stSelectbox div,
+.stExpander, .stExpander div,
+.stNumberInput label, .stNumberInput div {
+    color: #FFFFFF !important;      /* white text everywhere */
+}
+
+/* Also fix dropdown list items when expanded */
+div[data-baseweb="select"] * {
+    color: #FFFFFF !important;      /* dropdown options white */
+    background-color: #0A0E1A !important;  /* dark bg for contrast */
+}
+
     </style>
     """, unsafe_allow_html=True)
 
