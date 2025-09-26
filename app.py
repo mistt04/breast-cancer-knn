@@ -118,8 +118,8 @@ It compares your inputs to similar past cases (K-Nearest Neighbors). It is **not
 # Friendly metrics
 c1, c2, c3 = st.columns(3)
 c1.metric("Overall accuracy", f"{m['accuracy']*100:.1f}%")
-c2.metric("Catches cancer cases", f"{m['sensitivity']*100:.1f}%")
-c3.metric("Avoids false alarms", f"{m['specificity']*100:.1f}%")
+c2.metric("Catches cancer case (sensitivity)", f"{m['sensitivity']*100:.1f}%")
+c3.metric("Avoids false alarms (specificity)", f"{m['specificity']*100:.1f}%")
 
 st.divider()
 
